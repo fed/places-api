@@ -1,62 +1,59 @@
 import * as http from 'http';
 import * as debug from 'debug';
+import {MongoClient} from 'mongodb';
+import {MONGODB_URI} from './utils/constants';
 import App from './App';
 
 // Use debug to set up some terminal logging for the app.
 debug('ts-express:server');
 
-// Set up some basic error handling and a terminal log
-// to show us when the app is ready and listening.
-function normalizePort(value: number | string): number | string | boolean {
-  const port: number = typeof value === 'string' ? parseInt(value, 10) : value;
-
-  if (isNaN(port)) {
-    return value;
-  } else if (port >= 0) {
-    return port;
-  } else {
-    return false;
-  }
-}
-
-function onError(error: NodeJS.ErrnoException): void {
-  if (error.syscall !== 'listen') {
-    throw error;
+// Connect to the database before starting the application server.
+MongoClient.connect(MONGODB_URI, (error, database) => {
+  if (error) {
+    console.log(error);
+    process.exit(1);
   }
 
-  const bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
+  // App instance
+  const app = new App(database).express;
 
-  switch(error.code) {
-    case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
-      process.exit(1);
-      break;
+  // Get a port value from the environment, or default to 6789.
+  const port = process.env.PORT || '6789';
 
-    case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
-      process.exit(1);
-      break;
+  app.set('port', port);
 
-    default:
+  // Create an HTTP server, and pass App (our Express app) as a param.
+  const server = http.createServer(app);
+
+  // Initialize the app.
+  server.listen(port);
+
+  // Set up some basic error handling and a terminal log
+  // to show us when the app is ready and listening.
+  server.on('listening', () => {
+    debug(`Server listening on ${server.address().port}`);
+  });
+
+  server.on('error', (error: NodeJS.ErrnoException) => {
+    if (error.syscall !== 'listen') {
       throw error;
-  }
-}
+    }
 
-function onListening(): void {
-  const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+    const bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
 
-  debug(`Listening on ${bind}`);
-}
+    switch (error.code) {
+      case 'EACCES':
+        console.error(`${bind} requires elevated privileges`);
+        process.exit(1);
+        break;
 
-// Get a port value from the environment, or default to 6789.
-const port = normalizePort(process.env.PORT || 6789);
+      case 'EADDRINUSE':
+        console.error(`${bind} is already in use`);
+        process.exit(1);
+        break;
 
-App.set('port', port);
-
-// Create an HTTP server, and pass App (our Express app) as a param.
-const server = http.createServer(App);
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+      default:
+        throw error;
+    }
+  });
+});

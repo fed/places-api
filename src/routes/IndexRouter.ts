@@ -1,9 +1,8 @@
-import {Router, Request, Response, NextFunction} from 'express';
+import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-// placeholder route handler
-router.get('/', (request: Request, response: Response, next: NextFunction) => {
+router.get('/', (request: Request, response: Response) => {
   response.json({
     meta: {
       message: 'Success',

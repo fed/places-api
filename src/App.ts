@@ -2,19 +2,24 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
+import {Db} from 'mongodb';
 
 // Routes
 import IndexRouter from './routes/IndexRouter';
-import HeroRouter from './routes/HeroRouter';
+import PlacesRouter from './routes/PlacesRouter';
 
 // Creates and configures an ExpressJS web server.
-class App {
+export default class App {
 
-  // Express instance
+  // Express instance.
   public express: express.Application;
 
+  // Database instance.
+  private database: Db;
+
   //Run configuration methods on the Express instance.
-  constructor() {
+  constructor(databaseInstance) {
+    this.database = databaseInstance;
     this.express = express();
     this.middleware();
     this.routes();
@@ -30,8 +35,6 @@ class App {
   // Configure API endpoints.
   private routes(): void {
     this.express.use('/', IndexRouter);
-    this.express.use('/api/v1/heroes', HeroRouter);
+    this.express.use('/api/v1/places', PlacesRouter(this.database.collection('places')));
   }
 }
-
-export default new App().express;
