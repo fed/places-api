@@ -35,6 +35,6 @@ export default class App {
   // Configure API endpoints.
   private routes(): void {
     this.express.use('/', IndexRouter);
-    this.express.use('/api/v1/places', PlacesRouter(this.database.collection('places')));
+    this.express.use('/places', PlacesRouter(this.database.collection('places')));
   }
 }
