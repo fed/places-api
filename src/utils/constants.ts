@@ -1,5 +1,4 @@
 // const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
-
 const MONGODB_USERNAME = 'placelog';
 const MONGODB_PASSWORD = 'golecalp';
 

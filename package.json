@@ -19,11 +19,6 @@
     "test": "mocha --reporter spec --require ts-node/register 'test/**/*.ts'"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "debug": "^3.1.0",
-    "express": "^4.16.2",
-    "mongodb": "^2.2.33",
-    "morgan": "^1.9.0",
     "@types/body-parser": "^1.16.8",
     "@types/chai": "^4.0.4",
     "@types/chai-http": "^3.0.3",
@@ -33,11 +28,16 @@
     "@types/mongodb": "^2.2.15",
     "@types/morgan": "^1.7.35",
     "@types/node": "^8.0.51",
+    "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "debug": "^3.1.0",
+    "express": "^4.16.2",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.2.3",
     "mocha": "^4.0.1",
+    "mongodb": "^2.2.33",
+    "morgan": "^1.9.0",
     "npm-run-all": "^4.1.2",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.1"
