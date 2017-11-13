@@ -1,5 +1,7 @@
-const usr = process.env.MONGODB_USERNAME;
-const pwd = process.env.MONGODB_PASSWORD;
+// const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
 
-export const MONGODB_URI = `mongodb://${usr}:${pwd}@ds159235.mlab.com:59235/placelog`;
+const MONGODB_USERNAME = 'placelog';
+const MONGODB_PASSWORD = 'golecalp';
+
+export const MONGODB_URI = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@ds159235.mlab.com:59235/placelog`;
 export const PLACES_COLLECTION = 'places';
