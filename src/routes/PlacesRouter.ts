@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from 'express';
-const places = require('../data');
 
 export default function PlacesRouter(collection) {
   const router = Router();
@@ -25,18 +24,20 @@ export default function PlacesRouter(collection) {
   });
 
   router.post('/', (request: Request, response: Response) => {
+    const places = request.body;
+
     collection.insert(places);
 
     collection
       .find()
-      .toArray(function (error, places) {
+      .toArray((error, places) => {
         if (error) {
           throw error;
         }
 
         response.json({
           meta: {
-            message: 'Place got added successfully',
+            message: 'Place(s) got added successfully',
             status: response.statusCode
           },
           data: {
