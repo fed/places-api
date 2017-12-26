@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import {Db} from 'mongodb';
+import { Db } from 'mongodb';
 
 // Routes
 import IndexRouter from './routes/IndexRouter';
@@ -10,7 +10,6 @@ import PlacesRouter from './routes/PlacesRouter';
 
 // Creates and configures an ExpressJS web server.
 export default class App {
-
   // Express instance.
   public express: express.Application;
 
@@ -43,6 +42,9 @@ export default class App {
   // Configure API endpoints.
   private routes(): void {
     this.express.use('/', IndexRouter);
-    this.express.use('/places', PlacesRouter(this.database.collection('places')));
+    this.express.use(
+      '/places',
+      PlacesRouter(this.database.collection('places'))
+    );
   }
 }

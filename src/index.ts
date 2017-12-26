@@ -1,7 +1,7 @@
 import * as http from 'http';
 import * as debug from 'debug';
-import {MongoClient} from 'mongodb';
-import {MONGODB_URI} from './utils/constants';
+import { MongoClient } from 'mongodb';
+import { MONGODB_URI } from './utils/constants';
 import App from './App';
 
 // Use debug to set up some terminal logging for the app.
@@ -39,7 +39,7 @@ MongoClient.connect(MONGODB_URI, (error, database) => {
       throw error;
     }
 
-    const bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
+    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
     switch (error.code) {
       case 'EACCES':
