@@ -23,11 +23,11 @@ export default function PlacesRouter(collection: Collection) {
   });
 
   router.get('/:placeId', (request: Request, response: Response) => {
-    const placeId = request.params.placeId;
+    const placeId = new ObjectID(request.params.placeId);
 
     collection
       .find({
-        _id: new ObjectID(placeId)
+        _id: placeId
       })
       .toArray(function(error, places) {
         if (error) {
@@ -69,10 +69,10 @@ export default function PlacesRouter(collection: Collection) {
   });
 
   router.delete('/:placeId', (request: Request, response: Response) => {
-    const placeId = request.params.placeId;
+    const placeId = new ObjectID(request.params.placeId);
 
     collection.deleteOne({
-      _id: new ObjectID(placeId)
+      _id: placeId
     });
 
     collection.find().toArray((error, places) => {
@@ -90,6 +90,31 @@ export default function PlacesRouter(collection: Collection) {
         }
       });
     });
+  });
+
+  router.put('/:placeId', (request: Request, response: Response) => {
+    const placeId = new ObjectID(request.params.placeId);
+    const placeDetails = request.body;
+
+    collection.update(
+      { _id: placeId },
+      { $set: placeDetails },
+      (error, places) => {
+        if (error) {
+          throw error;
+        }
+
+        response.json({
+          meta: {
+            message: 'Place updated successfully',
+            status: response.statusCode
+          },
+          data: {
+            places
+          }
+        });
+      }
+    );
   });
 
   return router;
