@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { Collection, ObjectID } from 'mongodb';
 
-export default function PlacesRouter(collection) {
+export default function PlacesRouter(collection: Collection) {
   const router = Router();
 
   router.get('/', (request: Request, response: Response) => {
@@ -34,6 +35,30 @@ export default function PlacesRouter(collection) {
       response.json({
         meta: {
           message: 'Place(s) got added successfully',
+          status: response.statusCode
+        },
+        data: {
+          places
+        }
+      });
+    });
+  });
+
+  router.delete('/:placeId', (request: Request, response: Response) => {
+    const placeId = request.params.placeId;
+
+    collection.deleteOne({
+      _id: ObjectID(placeId)
+    });
+
+    collection.find().toArray((error, places) => {
+      if (error) {
+        throw error;
+      }
+
+      response.json({
+        meta: {
+          message: 'Place successfully removed',
           status: response.statusCode
         },
         data: {

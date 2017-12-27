@@ -18,6 +18,7 @@ MongoClient.connect(MONGODB_URI, (error, database) => {
   const app = new App(database).express;
 
   // Get a port value from the environment, or default to 6789.
+  // Make sure the default value is a string.
   const port = process.env.PORT || '6789';
 
   app.set('port', port);
