@@ -22,6 +22,30 @@ export default function PlacesRouter(collection: Collection) {
     });
   });
 
+  router.get('/:placeId', (request: Request, response: Response) => {
+    const placeId = request.params.placeId;
+
+    collection
+      .find({
+        _id: new ObjectID(placeId)
+      })
+      .toArray(function(error, places) {
+        if (error) {
+          throw error;
+        }
+
+        response.json({
+          meta: {
+            message: 'Success',
+            status: response.statusCode
+          },
+          data: {
+            places
+          }
+        });
+      });
+  });
+
   router.post('/', (request: Request, response: Response) => {
     const places = request.body;
 
@@ -48,7 +72,7 @@ export default function PlacesRouter(collection: Collection) {
     const placeId = request.params.placeId;
 
     collection.deleteOne({
-      _id: ObjectID(placeId)
+      _id: new ObjectID(placeId)
     });
 
     collection.find().toArray((error, places) => {
