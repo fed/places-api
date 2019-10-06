@@ -4,7 +4,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import { Db } from 'mongodb';
 
-// Routes
+// Routes.
 import IndexRouter from './routes/IndexRouter';
 import PlacesRouter from './routes/PlacesRouter';
 

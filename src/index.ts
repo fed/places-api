@@ -1,25 +1,29 @@
 import * as http from 'http';
-import * as debug from 'debug';
 import { MongoClient } from 'mongodb';
-import { DB_URI } from './utils/constants';
+import { DB_URI, DB_NAME, DEFAULT_PORT } from './utils/constants';
 import App from './App';
 
-// Use debug to set up some terminal logging for the app.
-debug('ts-express:server');
+// Mongoose settings.
+const config = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+};
 
 // Connect to the database before starting the application server.
-MongoClient.connect(DB_URI, (error, database) => {
+MongoClient.connect(DB_URI, config, (error, client) => {
     if (error) {
         console.log(error);
         process.exit(1);
     }
 
-    // App instance
+    const database = client.db(DB_NAME);
+
+    // App instance.
     const app = new App(database).express;
 
-    // Get a port value from the environment, or default to 6789.
+    // Get a port value from the environment, or use the default.
     // Make sure the default value is a string.
-    const port = process.env.PORT || '6789';
+    const port = process.env.PORT || DEFAULT_PORT;
 
     app.set('port', port);
 
@@ -29,12 +33,7 @@ MongoClient.connect(DB_URI, (error, database) => {
     // Initialize the app.
     server.listen(port);
 
-    // Set up some basic error handling and a terminal log
-    // to show us when the app is ready and listening.
-    server.on('listening', () => {
-        debug(`Server listening on ${server.address().port}`);
-    });
-
+    // Set up some basic error handling.
     server.on('error', (error: NodeJS.ErrnoException) => {
         if (error.syscall !== 'listen') {
             throw error;
