@@ -9,52 +9,52 @@ debug('ts-express:server');
 
 // Connect to the database before starting the application server.
 MongoClient.connect(DB_URI, (error, database) => {
-  if (error) {
-    console.log(error);
-    process.exit(1);
-  }
-
-  // App instance
-  const app = new App(database).express;
-
-  // Get a port value from the environment, or default to 6789.
-  // Make sure the default value is a string.
-  const port = process.env.PORT || '6789';
-
-  app.set('port', port);
-
-  // Create an HTTP server, and pass App (our Express app) as a param.
-  const server = http.createServer(app);
-
-  // Initialize the app.
-  server.listen(port);
-
-  // Set up some basic error handling and a terminal log
-  // to show us when the app is ready and listening.
-  server.on('listening', () => {
-    debug(`Server listening on ${server.address().port}`);
-  });
-
-  server.on('error', (error: NodeJS.ErrnoException) => {
-    if (error.syscall !== 'listen') {
-      throw error;
+    if (error) {
+        console.log(error);
+        process.exit(1);
     }
 
-    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    // App instance
+    const app = new App(database).express;
 
-    switch (error.code) {
-      case 'EACCES':
-        console.error(`${bind} requires elevated privileges`);
-        process.exit(1);
-        break;
+    // Get a port value from the environment, or default to 6789.
+    // Make sure the default value is a string.
+    const port = process.env.PORT || '6789';
 
-      case 'EADDRINUSE':
-        console.error(`${bind} is already in use`);
-        process.exit(1);
-        break;
+    app.set('port', port);
 
-      default:
-        throw error;
-    }
-  });
+    // Create an HTTP server, and pass App (our Express app) as a param.
+    const server = http.createServer(app);
+
+    // Initialize the app.
+    server.listen(port);
+
+    // Set up some basic error handling and a terminal log
+    // to show us when the app is ready and listening.
+    server.on('listening', () => {
+        debug(`Server listening on ${server.address().port}`);
+    });
+
+    server.on('error', (error: NodeJS.ErrnoException) => {
+        if (error.syscall !== 'listen') {
+            throw error;
+        }
+
+        const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+
+        switch (error.code) {
+            case 'EACCES':
+                console.error(`${bind} requires elevated privileges`);
+                process.exit(1);
+                break;
+
+            case 'EADDRINUSE':
+                console.error(`${bind} is already in use`);
+                process.exit(1);
+                break;
+
+            default:
+                throw error;
+        }
+    });
 });

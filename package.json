@@ -2,7 +2,6 @@
   "name": "places-api",
   "version": "0.0.0",
   "description": "Places RESTful API",
-  "main": "index.js",
   "license": "MIT",
   "author": {
     "name": "Federico Knüssel",
@@ -49,6 +48,6 @@
     "prettier": "^1.9.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,js,json}": ["prettier --single-quote --write", "git add"]
+    "src/**/*.{ts,js,json}": ["prettier --write", "git add"]
   }
 }
