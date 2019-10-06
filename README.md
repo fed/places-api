@@ -1,9 +1,14 @@
 # places-api
 
+## Prerequisites
+
+* Node.js (https://nodejs.org/)
+* Yarn (https://yarnpkg.com/)
+
 ## Running locally
 
 ```
-MONGODB_PASSWORD=X yarn start
+DB_PASSWORD=X yarn start
 ```
 
 ## Credits

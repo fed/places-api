@@ -1,6 +1,8 @@
-// const { MONGODB_USERNAME, MONGODB_PASSWORD } = process.env;
-const MONGODB_USERNAME = 'placelog';
-const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD;
+const DB_USERNAME = 'placelog';
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_HOST = 'ds159235.mlab.com';
+const DB_PORT = 59235;
+const DB_NAME = 'placelog';
 
-export const MONGODB_URI = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@ds159235.mlab.com:59235/placelog`;
+export const DB_URI = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 export const PLACES_COLLECTION = 'places';

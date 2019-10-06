@@ -1,14 +1,14 @@
 import * as http from 'http';
 import * as debug from 'debug';
 import { MongoClient } from 'mongodb';
-import { MONGODB_URI } from './utils/constants';
+import { DB_URI } from './utils/constants';
 import App from './App';
 
 // Use debug to set up some terminal logging for the app.
 debug('ts-express:server');
 
 // Connect to the database before starting the application server.
-MongoClient.connect(MONGODB_URI, (error, database) => {
+MongoClient.connect(DB_URI, (error, database) => {
   if (error) {
     console.log(error);
     process.exit(1);
