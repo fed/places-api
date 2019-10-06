@@ -39,9 +39,12 @@ export default function PlacesRouter(collection: Collection) {
                         message: 'Success',
                         status: response.statusCode
                     },
-                    data: {
-                        places
-                    }
+                    data:
+                        places.length === 1
+                            ? places[0]
+                            : places.length > 1
+                            ? places
+                            : null
                 });
             });
     });
